@@ -99,9 +99,37 @@ class StringType(BaseType):
     def non_empty(self):
         return bool(self.value)
 
+    @type_operator(FIELD_TEXT)
+    def not_equal_to(self, other_string):
+        return not (self.value == other_string)
+
+    @type_operator(FIELD_TEXT, label="Not equal To (case insensitive)")
+    def not_equal_to_case_insensitive(self, other_string):
+        return not (self.value.lower() == other_string.lower())
+
+    @type_operator(FIELD_TEXT)
+    def does_not_start_with(self, other_string):
+        return not (self.value.startswith(other_string))
+
+    @type_operator(FIELD_TEXT)
+    def does_not_end_with(self, other_string):
+        return not (self.value.endswith(other_string))
+
+    @type_operator(FIELD_TEXT)
+    def does_not_contain(self, other_string):
+        return not (other_string in self.value)
+
+    @type_operator(FIELD_TEXT, label="Does not contain (case insensitive)")
+    def does_not_contain_case_insensitive(self, other_string):
+        return not (other_string.lower() in self.value.lower())
+
+    @type_operator(FIELD_TEXT)
+    def does_not_match_regex(self, regex):
+        return not re.search(regex, self.value)
+
     @type_operator(FIELD_NO_INPUT)
     def is_empty(self):
-        return self.value is None or self.value.strip() == ""
+        return (self.value is None) or (self.value.strip() == "")
 
 
 @export_type
