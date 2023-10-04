@@ -13,7 +13,8 @@ class BaseActions(object):
         methods = inspect.getmembers(cls)
         return [{'name': m[0],
                  'label': m[1].label,
-                 'params': m[1].params
+                 'params': m[1].params,
+                 'docs': inspect.getdoc(m[1]),
                 } for m in methods if getattr(m[1], 'is_rule_action', False)]
 
 def _validate_action_parameters(func, params):

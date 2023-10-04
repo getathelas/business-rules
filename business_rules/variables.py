@@ -19,6 +19,7 @@ class BaseVariables(object):
                  'label': m[1].label,
                  'field_type': m[1].field_type.name,
                  'options': m[1].options,
+                 'docs': inspect.getdoc(m[1])
                 } for m in methods if getattr(m[1], 'is_rule_variable', False)]
 
 

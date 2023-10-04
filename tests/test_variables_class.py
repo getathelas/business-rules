@@ -16,6 +16,7 @@ class VariablesClassTests(TestCase):
 
             @rule_variable(StringType)
             def this_is_rule_1(self):
+                """some docs"""
                 return "blah"
 
             def non_rule(self):
@@ -26,6 +27,7 @@ class VariablesClassTests(TestCase):
         self.assertEqual(vars[0]['name'], 'this_is_rule_1')
         self.assertEqual(vars[0]['label'], 'This Is Rule 1')
         self.assertEqual(vars[0]['field_type'], 'string')
+        self.assertEqual(vars[0]['docs'], 'some docs')
         self.assertEqual(vars[0]['options'], [])
 
         # should work on an instance of the class too
