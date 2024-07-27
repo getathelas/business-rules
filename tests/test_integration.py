@@ -131,7 +131,6 @@ class IntegrationTests(TestCase):
                            'field_type': 'boolean',
                            'options': []}])
 
-        self.maxDiff = None
         self.assertEqual(
             all_data.get("variable_type_operators"),
             {
