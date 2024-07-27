@@ -7,6 +7,7 @@ from .fields import (FIELD_TEXT, FIELD_NUMERIC, FIELD_NO_INPUT,
                      FIELD_SELECT, FIELD_SELECT_MULTIPLE)
 from .utils import fn_name_to_pretty_label, float_to_decimal
 from decimal import Decimal, Inexact, Context
+import ast
 
 class BaseType(object):
     def __init__(self, value):
@@ -276,3 +277,13 @@ class SelectMultipleType(BaseType):
     @type_operator(FIELD_SELECT_MULTIPLE)
     def shares_no_elements_with(self, other_value):
         return not self.shares_at_least_one_element_with(other_value)
+
+
+    # This operator is only implemented for the posting rule engine at the moment
+    @type_operator(FIELD_SELECT_MULTIPLE)
+    def exists_posting_rule_engine_only(self, other_value):
+        other_value = set(ast.literal_eval(other_value))
+        for payment_item_info in self.value:
+            if other_value.issubset(payment_item_info):
+                return True
+        return False
