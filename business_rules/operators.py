@@ -281,8 +281,8 @@ class SelectMultipleType(BaseType):
 
     # This operator is only implemented for the posting rule engine at the moment
     @type_operator(FIELD_SELECT_MULTIPLE)
-    def exists_posting_rule_engine_only(self, other_value):
-        other_value = set(ast.literal_eval(other_value))
+    def exists_posting_rule_engine_only(self, other_value):            
+        other_value = set(other_value)
         for payment_item_info in self.value:
             if other_value.issubset(payment_item_info):
                 return True
