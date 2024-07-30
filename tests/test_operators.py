@@ -201,10 +201,10 @@ class SelectMultipleOperatorTests(TestCase):
                         contains_all([2, 1, "A"]))
 
 
-    def test_exists_posting_rule_engine_only(self):
+    def test_compare_state_with_item(self):
         self.assertTrue(SelectMultipleType([["same_check_number", "same_check_date"], ["different_check_number", "different_check_date"]]).
-                        exists_posting_rule_engine_only('["same_check_number", "same_check_date"]'))
+                        compare_state_with_item(["same_check_number", "same_check_date"]))
         self.assertFalse(SelectMultipleType([["same_check_number", "same_check_date"], ["different_check_number", "different_check_date"]]).
-                         exists_posting_rule_engine_only('["same_check_number", "different_check_date"]'))
+                         compare_state_with_item(["same_check_number", "different_check_date"]))
         self.assertTrue(SelectMultipleType([["same_check_number", "same_check_date", "different_era_id"], ["different_check_number", "different_check_date, same_era_id"]]).
-                        exists_posting_rule_engine_only('["same_check_number", "different_era_id"]'))
+                        compare_state_with_item(["same_check_number", "different_era_id"]))
