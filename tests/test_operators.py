@@ -190,3 +190,21 @@ class SelectMultipleOperatorTests(TestCase):
                          shares_no_elements_with([2, 3]))
         self.assertFalse(SelectMultipleType([1, 2, "a"]).
                          shares_no_elements_with([4, "A"]))
+        
+        
+    def test_contains_all(self):
+        self.assertTrue(SelectMultipleType([1, 2]).
+                        contains_all([2, 1]))
+        self.assertFalse(SelectMultipleType([1, 2]).
+                         contains_all([2, 3]))
+        self.assertTrue(SelectMultipleType([1, 2, "a"]).
+                        contains_all([2, 1, "A"]))
+
+
+    def test_compare_state_with_item(self):
+        self.assertTrue(SelectMultipleType([["same_check_number", "same_check_date"], ["different_check_number", "different_check_date"]]).
+                        compare_state_with_item(["same_check_number", "same_check_date"]))
+        self.assertFalse(SelectMultipleType([["same_check_number", "same_check_date"], ["different_check_number", "different_check_date"]]).
+                         compare_state_with_item(["same_check_number", "different_check_date"]))
+        self.assertTrue(SelectMultipleType([["same_check_number", "same_check_date", "different_era_id"], ["different_check_number", "different_check_date, same_era_id"]]).
+                        compare_state_with_item(["same_check_number", "different_era_id"]))

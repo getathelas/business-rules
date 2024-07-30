@@ -276,3 +276,13 @@ class SelectMultipleType(BaseType):
     @type_operator(FIELD_SELECT_MULTIPLE)
     def shares_no_elements_with(self, other_value):
         return not self.shares_at_least_one_element_with(other_value)
+
+
+    # This operator is only implemented for the posting rule engine at the moment
+    @type_operator(FIELD_SELECT_MULTIPLE, label="Compare State With Item (Only for Posting Rule Engine)")
+    def compare_state_with_item(self, other_value):            
+        other_value = set(other_value)
+        for state in self.value:
+            if other_value.issubset(state):
+                return True
+        return False
