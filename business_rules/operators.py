@@ -279,7 +279,7 @@ class SelectMultipleType(BaseType):
 
 
     # This operator is only implemented for the posting rule engine at the moment
-    @type_operator(FIELD_SELECT_MULTIPLE)
+    @type_operator(FIELD_SELECT_MULTIPLE, label="Compare State With Item (Only for Posting Rule Engine)")
     def compare_state_with_item(self, other_value):            
         other_value = set(other_value)
         print(other_value)

@@ -151,7 +151,7 @@ class IntegrationTests(TestCase):
                     {'input_type': 'select', 'label': 'Does Not Contain', 'name': 'does_not_contain'}
                 ],
                 'select_multiple': [
-                    {'input_type': 'select_multiple', 'label': 'Compare State With Item', 'name': 'compare_state_with_item'},
+                    {'input_type': 'select_multiple', 'label': 'Compare State With Item (Only for Posting Rule Engine)', 'name': 'compare_state_with_item'},
                     {'input_type': 'select_multiple', 'label': 'Contains All', 'name': 'contains_all'},
                     {'input_type': 'select_multiple', 'label': 'Is Contained By', 'name': 'is_contained_by'},
                     {'input_type': 'select_multiple', 'label': 'Shares At Least One Element With', 'name': 'shares_at_least_one_element_with'},
