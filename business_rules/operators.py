@@ -180,13 +180,13 @@ class NumericType(BaseType):
 
     @type_operator(FIELD_NUMERIC)
     def less_than(self, other_numeric):
-        if not self.exists(): 
+        if self.exists(): 
             return (other_numeric - self.value) > self.EPSILON 
         return False
 
     @type_operator(FIELD_NUMERIC)
     def less_than_or_equal_to(self, other_numeric):
-        if not self.exists(): 
+        if self.exists(): 
             return self.less_than(other_numeric) or self.equal_to(other_numeric)
         return False 
     

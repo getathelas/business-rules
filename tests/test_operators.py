@@ -80,6 +80,8 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10).equal_to(Decimal('10.0')))
         self.assertFalse(NumericType(10).equal_to(10.00001))
         self.assertFalse(NumericType(10).equal_to(11))
+        self.assertFalse(NumericType(None).equal_to(10))
+
 
     def test_other_value_not_numeric(self):
         error_string = "10 is not a valid numeric type"
@@ -92,6 +94,7 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10.1).greater_than(10))
         self.assertFalse(NumericType(10.000001).greater_than(10))
         self.assertTrue(NumericType(10.000002).greater_than(10))
+        self.assertFalse(NumericType(None).greater_than(10))
 
     def test_numeric_greater_than_or_equal_to(self):
         self.assertTrue(NumericType(10).greater_than_or_equal_to(1))
@@ -100,6 +103,7 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10.000001).greater_than_or_equal_to(10))
         self.assertTrue(NumericType(10.000002).greater_than_or_equal_to(10))
         self.assertTrue(NumericType(10).greater_than_or_equal_to(10))
+        self.assertFalse(NumericType(None).greater_than_or_equal_to(10))
 
     def test_numeric_less_than(self):
         self.assertTrue(NumericType(1).less_than(10))
@@ -107,6 +111,8 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10).less_than(10.1))
         self.assertFalse(NumericType(10).less_than(10.000001))
         self.assertTrue(NumericType(10).less_than(10.000002))
+        self.assertFalse(NumericType(None).less_than(10))
+
 
     def test_numeric_less_than_or_equal_to(self):
         self.assertTrue(NumericType(1).less_than_or_equal_to(10))
@@ -115,6 +121,11 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10).less_than_or_equal_to(10.000001))
         self.assertTrue(NumericType(10).less_than_or_equal_to(10.000002))
         self.assertTrue(NumericType(10).less_than_or_equal_to(10))
+        self.assertFalse(NumericType(None).less_than_or_equal_to(10))
+    
+    def test_exists(self):
+        self.assertTrue(NumericType(1).exists())
+        self.assertFalse(NumericType(None).exists())
 
 
 class BooleanOperatorTests(TestCase):
