@@ -53,6 +53,9 @@ class NumericOperatorTests(TestCase):
         err_string = "foo is not a valid numeric type"
         with self.assertRaisesRegex(AssertionError, err_string):
             NumericType("foo")
+        
+        num = NumericType(None)
+        self.assertEqual(num.value, None )
 
     def test_numeric_type_validates_and_casts_decimal(self):
         ten_dec = Decimal(10)
