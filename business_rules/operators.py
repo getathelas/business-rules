@@ -156,43 +156,43 @@ class NumericType(BaseType):
 
     @type_operator(FIELD_NUMERIC)
     def equal_to(self, other_numeric):
-        if self.exists(): 
-            return abs(self.value - other_numeric) <= self.EPSILON
-        return False 
-
+        if self.does_not_exist(): 
+            return False 
+        return abs(self.value - other_numeric) <= self.EPSILON
+       
     @type_operator(FIELD_NUMERIC)
     def not_equal_to(self, other_numeric):
-        if self.exists(): 
-            return abs(self.value - other_numeric) > self.EPSILON
-        return False
+        if self.does_not_exist(): 
+            return False 
+        return abs(self.value - other_numeric) > self.EPSILON
 
     @type_operator(FIELD_NUMERIC)
     def greater_than(self, other_numeric):
-        if self.exists(): 
-            return (self.value - other_numeric) > self.EPSILON 
-        return False
+        if self.does_not_exist(): 
+            return False 
+        return (self.value - other_numeric) > self.EPSILON 
 
     @type_operator(FIELD_NUMERIC)
     def greater_than_or_equal_to(self, other_numeric):
-        if self.exists(): 
-            return self.greater_than(other_numeric) or self.equal_to(other_numeric) 
-        return False 
+        if self.does_not_exist():  
+            return False 
+        return self.greater_than(other_numeric) or self.equal_to(other_numeric)
 
     @type_operator(FIELD_NUMERIC)
     def less_than(self, other_numeric):
-        if self.exists(): 
-            return (other_numeric - self.value) > self.EPSILON 
-        return False
-
+        if self.does_not_exist(): 
+            return False
+        return (other_numeric - self.value) > self.EPSILON 
+        
     @type_operator(FIELD_NUMERIC)
     def less_than_or_equal_to(self, other_numeric):
-        if self.exists(): 
-            return self.less_than(other_numeric) or self.equal_to(other_numeric)
-        return False 
-    
+        if self.does_not_exist(): 
+            return False 
+        return self.less_than(other_numeric) or self.equal_to(other_numeric)
+        
     @type_operator(FIELD_NO_INPUT)
-    def exists(self):
-        return self.value != None 
+    def does_not_exist(self):
+        return self.value == None 
 
 @export_type
 class BooleanType(BaseType):

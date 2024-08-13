@@ -141,8 +141,8 @@ expected_variable_type_operators = {
                     {'input_type': 'none', 'label': 'Is True', 'name': 'is_true'}
                 ],
                 'numeric': [
+                    {'input_type': 'none', 'label': 'Does Not Exist', 'name': 'does_not_exist'},
                     {'input_type': 'numeric', 'label': 'Equal To', 'name': 'equal_to'},
-                    {'input_type': 'none', 'label': 'Exists', 'name': 'exists'},
                     {'input_type': 'numeric', 'label': 'Greater Than', 'name': 'greater_than'},
                     {'input_type': 'numeric', 'label': 'Greater Than Or Equal To', 'name': 'greater_than_or_equal_to'},
                     {'input_type': 'numeric', 'label': 'Less Than', 'name': 'less_than'},

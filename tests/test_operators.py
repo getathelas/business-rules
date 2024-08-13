@@ -133,9 +133,9 @@ class NumericOperatorTests(TestCase):
         self.assertTrue(NumericType(10).less_than_or_equal_to(10))
         self.assertFalse(NumericType(None).less_than_or_equal_to(10))
     
-    def test_exists(self):
-        self.assertTrue(NumericType(1).exists())
-        self.assertFalse(NumericType(None).exists())
+    def test_does_not_exist(self):
+        self.assertFalse(NumericType(1).does_not_exist())
+        self.assertTrue(NumericType(None).does_not_exist())
 
 
 class BooleanOperatorTests(TestCase):
