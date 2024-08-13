@@ -141,6 +141,8 @@ class NumericType(BaseType):
 
     @staticmethod
     def _assert_valid_value_and_cast(value):
+        if value == None: 
+            return None 
         if isinstance(value, float):
             # In python 2.6, casting float to Decimal doesn't work
             return float_to_decimal(value)
@@ -154,28 +156,43 @@ class NumericType(BaseType):
 
     @type_operator(FIELD_NUMERIC)
     def equal_to(self, other_numeric):
-        return abs(self.value - other_numeric) <= self.EPSILON
+        if self.exists(): 
+            return abs(self.value - other_numeric) <= self.EPSILON
+        return False 
 
     @type_operator(FIELD_NUMERIC)
     def not_equal_to(self, other_numeric):
-        return abs(self.value - other_numeric) > self.EPSILON
+        if self.exists(): 
+            return abs(self.value - other_numeric) > self.EPSILON
+        return False
 
     @type_operator(FIELD_NUMERIC)
     def greater_than(self, other_numeric):
-        return (self.value - other_numeric) > self.EPSILON
+        if self.exists(): 
+            return (self.value - other_numeric) > self.EPSILON 
+        return False
 
     @type_operator(FIELD_NUMERIC)
     def greater_than_or_equal_to(self, other_numeric):
-        return self.greater_than(other_numeric) or self.equal_to(other_numeric)
+        if self.exists(): 
+            return self.greater_than(other_numeric) or self.equal_to(other_numeric) 
+        return False 
 
     @type_operator(FIELD_NUMERIC)
     def less_than(self, other_numeric):
-        return (other_numeric - self.value) > self.EPSILON
+        if not self.exists(): 
+            return (other_numeric - self.value) > self.EPSILON 
+        return False
 
     @type_operator(FIELD_NUMERIC)
     def less_than_or_equal_to(self, other_numeric):
-        return self.less_than(other_numeric) or self.equal_to(other_numeric)
-
+        if not self.exists(): 
+            return self.less_than(other_numeric) or self.equal_to(other_numeric)
+        return False 
+    
+    @type_operator(FIELD_NO_INPUT)
+    def exists(self):
+        return self.value != None 
 
 @export_type
 class BooleanType(BaseType):
