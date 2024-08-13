@@ -84,6 +84,11 @@ class NumericOperatorTests(TestCase):
         self.assertFalse(NumericType(10).equal_to(10.00001))
         self.assertFalse(NumericType(10).equal_to(11))
         self.assertFalse(NumericType(None).equal_to(10))
+    
+    def test_numeric_not_equal_to(self):
+        self.assertTrue(NumericType(1).not_equal_to(10))
+        self.assertTrue(NumericType(10.1).not_equal_to(10))
+        self.assertFalse(NumericType(None).not_equal_to(10))
 
 
     def test_other_value_not_numeric(self):
