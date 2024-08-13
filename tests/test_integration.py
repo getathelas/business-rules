@@ -3,7 +3,6 @@ from business_rules import export_rule_data
 from business_rules.actions import rule_action, BaseActions
 from business_rules.variables import BaseVariables, string_rule_variable, numeric_rule_variable, boolean_rule_variable
 from business_rules.fields import FIELD_TEXT, FIELD_NUMERIC, FIELD_SELECT
-from pprint import pprint 
 from unittest import TestCase
 
 class SomeVariables(BaseVariables):
