@@ -3,7 +3,6 @@ from business_rules import export_rule_data
 from business_rules.actions import rule_action, BaseActions
 from business_rules.variables import BaseVariables, string_rule_variable, numeric_rule_variable, boolean_rule_variable
 from business_rules.fields import FIELD_TEXT, FIELD_NUMERIC, FIELD_SELECT
-
 from unittest import TestCase
 
 class SomeVariables(BaseVariables):
@@ -130,15 +129,19 @@ class IntegrationTests(TestCase):
                            "docs": None,
                            'field_type': 'boolean',
                            'options': []}])
+        
+        variable_type_operators = all_data.get("variable_type_operators")
+        self.assertEqual(variable_type_operators, expected_variable_type_operators)
 
-        self.assertEqual(
-            all_data.get("variable_type_operators"),
-            {
+
+
+expected_variable_type_operators = {
                 'boolean': [
                     {'input_type': 'none', 'label': 'Is False', 'name': 'is_false'},
                     {'input_type': 'none', 'label': 'Is True', 'name': 'is_true'}
                 ],
                 'numeric': [
+                    {'input_type': 'none', 'label': 'Does Not Exist', 'name': 'does_not_exist'},
                     {'input_type': 'numeric', 'label': 'Equal To', 'name': 'equal_to'},
                     {'input_type': 'numeric', 'label': 'Greater Than', 'name': 'greater_than'},
                     {'input_type': 'numeric', 'label': 'Greater Than Or Equal To', 'name': 'greater_than_or_equal_to'},
@@ -177,5 +180,3 @@ class IntegrationTests(TestCase):
                     {'input_type': 'text', 'label': 'Starts With', 'name': 'starts_with'}
                 ]
             }
-        )
-
