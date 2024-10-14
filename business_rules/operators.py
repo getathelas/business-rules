@@ -238,6 +238,26 @@ class SelectType(BaseType):
             if self._case_insensitive_equal_to(val, other_value):
                 return True
         return False
+    
+    @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
+    def contains_any(self, other_value):
+        if not other_value or len(other_value) == 0:
+            return False
+        for val in self.value:
+            for other_val in other_value:
+                if self._case_insensitive_equal_to(val, other_val):
+                    return True
+        return False
+    
+    @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
+    def contains_all(self, other_value):
+        if not self.value or len(self.value) == 0:
+            return False
+        for val in self.value:
+            for other_val in other_value:
+                if not self._case_insensitive_equal_to(val, other_val):
+                    return False
+        return True
 
     @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
     def does_not_contain(self, other_value):
