@@ -241,6 +241,8 @@ class SelectType(BaseType):
     
     @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
     def contains_any(self, other_value):
+        if not self.value or not other_value:
+            return False
         for val in self.value:
             for other_val in other_value:
                 if self._case_insensitive_equal_to(val, other_val):
