@@ -255,10 +255,13 @@ class SelectType(BaseType):
             return False
         if not self.value or len(self.value) == 0:
             return False
-        for val in self.value:
-            for other_val in other_value:
-                if not self._case_insensitive_equal_to(val, other_val):
-                    return False
+        for other_val in other_value:
+            exists = False
+            for val in self.value:
+                if self._case_insensitive_equal_to(val, other_val):
+                    exists = True
+            if not exists:
+                return False
         return True
 
     @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
