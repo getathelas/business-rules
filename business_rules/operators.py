@@ -241,7 +241,7 @@ class SelectType(BaseType):
     
     @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
     def contains_any(self, other_value):
-        if not other_value or len(other_value) == 0:
+        if not self.value or len(self.value) == 0:
             return False
         for val in self.value:
             for other_val in other_value:
@@ -251,6 +251,8 @@ class SelectType(BaseType):
     
     @type_operator(FIELD_SELECT, assert_type_for_arguments=False)
     def contains_all(self, other_value):
+        if not other_value or len(other_value) == 0:
+            return False
         if not self.value or len(self.value) == 0:
             return False
         for val in self.value:
