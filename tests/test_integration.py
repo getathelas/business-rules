@@ -151,6 +151,8 @@ expected_variable_type_operators = {
                 ],
                 'select': [
                     {'input_type': 'select', 'label': 'Contains', 'name': 'contains'},
+                    {'input_type': 'select', 'label': 'Contains All', 'name': 'contains_all'},
+                    {'input_type': 'select', 'label': 'Contains Any', 'name': 'contains_any'},
                     {'input_type': 'select', 'label': 'Does Not Contain', 'name': 'does_not_contain'}
                 ],
                 'select_multiple': [

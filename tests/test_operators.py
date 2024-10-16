@@ -167,6 +167,22 @@ class SelectOperatorTests(TestCase):
         self.assertFalse(SelectType([1, 2]).does_not_contain(2))
         self.assertFalse(SelectType([1, 2, "a"]).does_not_contain("A"))
 
+    def test_contains_all(self):
+        self.assertTrue(SelectType([1, 2]).contains_all([2]))
+        self.assertTrue(SelectType([1, 2, "a"]).contains_all(["A"]))
+        self.assertTrue(SelectType([1, 2]).contains_all([1, 2, 1]))
+        self.assertFalse(SelectType([1, 2]).contains_all([]))
+        self.assertFalse(SelectType([1, 2]).contains_all([3]))
+        self.assertFalse(SelectType([1, 2]).contains_all([1, 2, 3]))
+
+    def test_contains_any(self):
+        self.assertTrue(SelectType([1, 2]).contains_any([2]))
+        self.assertTrue(SelectType([1, 2, "a"]).contains_any(["A"]))
+        self.assertTrue(SelectType([1, 2]).contains_any([1, 2, 1]))
+        self.assertFalse(SelectType([1, 2]).contains_any([3]))
+        self.assertFalse(SelectType([]).contains_any([3]))
+        self.assertFalse(SelectType([1, 2]).contains_any([]))
+
 
 class SelectMultipleOperatorTests(TestCase):
 
