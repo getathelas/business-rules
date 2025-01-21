@@ -105,7 +105,7 @@ class IntegrationTests(TestCase):
         condition_result = check_condition(condition, SomeVariables())
         self.assertTrue(condition_result)
 
-    def test_check_missing_params(self):
+    def test_variable_missing_params(self):
         condition = {
             "name": "addition",
             "operator": "equal_to",
