@@ -102,4 +102,4 @@ def select_rule_variable(label=None, options=None, params=None):
 
 
 def select_multiple_rule_variable(label=None, options=None, params=None):
-    return rule_variable(SelectMultipleType, label=label, options=options)
+    return rule_variable(SelectMultipleType, label=label, options=options, params=params)
