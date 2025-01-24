@@ -142,7 +142,6 @@ class IntegrationTests(TestCase):
                                        ]}]
                            }
                           ])
-        print(all_data.get("variables"))
         self.assertEqual(all_data.get("variables"),
                          [{"name": "addition",
                             "label": "Addition",

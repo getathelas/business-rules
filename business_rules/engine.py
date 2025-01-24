@@ -60,15 +60,15 @@ def check_condition(condition, defined_variables):
 
 def _get_variable_value(defined_variables, name, params):
     """ Call the function provided on the defined_variables object with the
-    given name (raise exception if that doesn't exist) and casts it to the
+    given name and params (raise exception if name or params on the definition doesn't exist) and casts it to the
     specified type.
 
     Returns an instance of operators.BaseType
     """
 
     def fallback(*args, **kwargs):
-        raise AssertionError("Variable {0} is not defined in class {1}".format(
-            name, defined_variables.__class__.__name__))
+        raise AssertionError("Variable {0} or params {2} is not defined in class {1}".format(
+            name, defined_variables.__class__.__name__, params))
 
     method = getattr(defined_variables, name, fallback)
     val = method(**params)
