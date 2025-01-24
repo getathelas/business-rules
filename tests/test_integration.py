@@ -84,7 +84,7 @@ class IntegrationTests(TestCase):
         condition = {'name': 'food',
                      'operator': 'equal_to',
                      'value': 'm'}
-        err_string = 'Variable food is not defined in class SomeVariables'
+        err_string = 'Variable food or params {} is not defined in class SomeVariables'
         with self.assertRaisesRegex(AssertionError, err_string):
             check_condition(condition, SomeVariables())
 
