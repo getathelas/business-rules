@@ -49,7 +49,7 @@ def _validate_variable_parameters(func, params):
                     field_type, func.__name__, param_name))
 
 
-def rule_variable(var_field_type, label=None, options=None, params=None):
+def rule_variable(field_type, label=None, options=None, params=None):
     """ Decorator to make a function into a rule variable
     """
     options = options or []
@@ -57,9 +57,9 @@ def rule_variable(var_field_type, label=None, options=None, params=None):
 
     def wrapper(func):
         params_ = params
-        if not (type(var_field_type) == type and issubclass(var_field_type, BaseType)):
+        if not (type(field_type) == type and issubclass(field_type, BaseType)):
             raise AssertionError("{0} is not instance of BaseType in" \
-                                 " rule_variable field_type".format(var_field_type))
+                                 " rule_variable field_type".format(field_type))
 
         if isinstance(params, dict):
             params_ = [dict(label=fn_name_to_pretty_label(name),
@@ -67,7 +67,7 @@ def rule_variable(var_field_type, label=None, options=None, params=None):
                             fieldType=field_type) \
                        for name, field_type in params.items()]
         _validate_variable_parameters(func, params_)
-        func.field_type = var_field_type
+        func.field_type = field_type
         func.is_rule_variable = True
         func.label = label \
                      or fn_name_to_pretty_label(func.__name__)
