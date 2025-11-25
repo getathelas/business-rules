@@ -230,21 +230,27 @@ expected_variable_type_operators = {
     'string': [
         {'input_type': 'text', 'label': 'Contains', 'name': 'contains'},
         {'input_type': 'text', 'label': 'Contains (case insensitive)', 'name': 'contains_case_insensitive'},
+        {'input_type': 'text', 'label': 'Contains other field (case insensitive, dynamically fetches value of other field)', 'name': 'contains_case_insensitive_dynamic'},
         {'input_type': 'text', 'label': 'Contains other field (dynamically fetches value of other field)', 'name': 'contains_dynamic'},
         {'input_type': 'text', 'label': 'Does Not Contain', 'name': 'does_not_contain'},
         {'input_type': 'text', 'label': 'Does not contain (case insensitive)',
          'name': 'does_not_contain_case_insensitive'},
+        {'input_type': 'text', 'label': 'Does not contain other field (case insensitive, dynamically fetches value of other field)', 'name': 'does_not_contain_case_insensitive_dynamic'},
         {'input_type': 'text', 'label': 'Does Not End With', 'name': 'does_not_end_with'},
         {'input_type': 'text', 'label': 'Does Not Match Regex', 'name': 'does_not_match_regex'},
         {'input_type': 'text', 'label': 'Does Not Start With', 'name': 'does_not_start_with'},
         {'input_type': 'text', 'label': 'Ends With', 'name': 'ends_with'},
         {'input_type': 'text', 'label': 'Equal To', 'name': 'equal_to'},
         {'input_type': 'text', 'label': 'Equal To (case insensitive)', 'name': 'equal_to_case_insensitive'},
+        {'input_type': 'text', 'label': 'Equal to other field (case insensitive, dynamically fetches value of other field)', 'name': 'equal_to_case_insensitive_dynamic'},
+        {'input_type': 'text', 'label': 'Equal to other field (dynamically fetches value of other field)', 'name': 'equal_to_dynamic'},
         {'input_type': 'none', 'label': 'Is Empty', 'name': 'is_empty'},
         {'input_type': 'text', 'label': 'Matches Regex', 'name': 'matches_regex'},
         {'input_type': 'none', 'label': 'Non Empty', 'name': 'non_empty'},
         {'input_type': 'text', 'label': 'Not Equal To', 'name': 'not_equal_to'},
         {'input_type': 'text', 'label': 'Not equal To (case insensitive)', 'name': 'not_equal_to_case_insensitive'},
+        {'input_type': 'text', 'label': 'Not equal to other field (case insensitive, dynamically fetches value of other field)', 'name': 'not_equal_to_case_insensitive_dynamic'},
+        {'input_type': 'text', 'label': 'Not equal to other field (dynamically fetches value of other field)', 'name': 'not_equal_to_dynamic'},
         {'input_type': 'text', 'label': 'Starts With', 'name': 'starts_with'}
     ]
 }

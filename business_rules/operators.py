@@ -87,10 +87,6 @@ class StringType(BaseType):
     @type_operator(FIELD_TEXT)
     def contains(self, other_string):
         return other_string in self.value
-    
-    @type_operator(FIELD_TEXT, label="Contains other field (dynamically fetches value of other field)")
-    def contains_dynamic(self, other_string):
-        return other_string in self.value
 
     @type_operator(FIELD_TEXT, label="Contains (case insensitive)")
     def contains_case_insensitive(self, other_string):
@@ -135,6 +131,38 @@ class StringType(BaseType):
     @type_operator(FIELD_NO_INPUT)
     def is_empty(self):
         return (self.value is None) or (self.value.strip() == "")
+
+    @type_operator(FIELD_TEXT, label="Equal to other field (dynamically fetches value of other field)")
+    def equal_to_dynamic(self, other_string):
+        return self.equal_to(other_string)
+
+    @type_operator(FIELD_TEXT,
+                   label="Equal to other field (case insensitive, dynamically fetches value of other field)")
+    def equal_to_case_insensitive_dynamic(self, other_string):
+        return self.equal_to_case_insensitive(other_string)
+
+    @type_operator(FIELD_TEXT, label="Contains other field (dynamically fetches value of other field)")
+    def contains_dynamic(self, other_string):
+        return other_string in self.value
+
+    @type_operator(FIELD_TEXT,
+                   label="Contains other field (case insensitive, dynamically fetches value of other field)")
+    def contains_case_insensitive_dynamic(self, other_string):
+        return self.contains_case_insensitive(other_string)
+
+    @type_operator(FIELD_TEXT, label="Not equal to other field (dynamically fetches value of other field)")
+    def not_equal_to_dynamic(self, other_string):
+        return self.not_equal_to(other_string)
+
+    @type_operator(FIELD_TEXT,
+                   label="Not equal to other field (case insensitive, dynamically fetches value of other field)")
+    def not_equal_to_case_insensitive_dynamic(self, other_string):
+        return self.not_equal_to_case_insensitive(other_string)
+
+    @type_operator(FIELD_TEXT,
+                   label="Does not contain other field (case insensitive, dynamically fetches value of other field)")
+    def does_not_contain_case_insensitive_dynamic(self, other_string):
+        return self.does_not_contain_case_insensitive(other_string)
 
 
 @export_type
