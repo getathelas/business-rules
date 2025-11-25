@@ -1,4 +1,5 @@
 from .fields import FIELD_NO_INPUT
+DYNAMIC_SUFFIX = "_dynamic"
 
 
 def run_all(rule_list,
@@ -47,15 +48,45 @@ def check_conditions_recursively(conditions, defined_variables):
         return check_condition(conditions, defined_variables)
 
 
+def _resolve_operator_and_value(condition, defined_variables):
+    """
+    Support operators like `contains_dynamic`, where `value` is the *name* of
+    another variable to compare against.
+    """
+    operator_name = condition["operator"]
+    value = condition.get("value", None)
+
+    # Not dynamic? return as-is
+    if not operator_name.endswith(DYNAMIC_SUFFIX):
+        return operator_name, value
+
+    # e.g. "postal_code" → call variables.postal_code()
+    other_var_name = value
+    if not isinstance(other_var_name, str):
+        # Bad rule → treat as None (will fail gracefully)
+        return operator_name, None
+
+    # Resolve the other variable’s value
+    other_operator_type = _get_variable_value(defined_variables, other_var_name, {})
+    rhs_value = other_operator_type.value
+
+    return operator_name, rhs_value
+
 def check_condition(condition, defined_variables):
     """ Checks a single rule condition - the condition will be made up of
     variables, values, and the comparison operator. The defined_variables
     object must have a variable defined for any variables in this condition.
     """
-    name, op, value = condition['name'], condition['operator'], condition['value']
+    name= condition['name']
     params = condition.get("params", {})
     operator_type = _get_variable_value(defined_variables, name, params)
-    return _do_operator_comparison(operator_type, op, value)
+
+    #NEW: dynamic operator/value resolution
+    operator_name, comparison_value = _resolve_operator_and_value(
+        condition, defined_variables
+    )
+
+    return _do_operator_comparison(operator_type, operator_name, comparison_value)
 
 
 def _get_variable_value(defined_variables, name, params):
