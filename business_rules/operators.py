@@ -87,6 +87,10 @@ class StringType(BaseType):
     @type_operator(FIELD_TEXT)
     def contains(self, other_string):
         return other_string in self.value
+    
+    @type_operator(FIELD_TEXT, label="Contains other field (dynamically fetches value of other field)")
+    def contains_dynamic(self, other_string):
+        return other_string in self.value
 
     @type_operator(FIELD_TEXT, label="Contains (case insensitive)")
     def contains_case_insensitive(self, other_string):

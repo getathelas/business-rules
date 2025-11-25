@@ -12,6 +12,10 @@ class SomeVariables(BaseVariables):
     def foo(self):
         return "foo"
 
+    @string_rule_variable()
+    def foo_substring(self):
+        return "fo"
+
     @numeric_rule_variable(label="Diez")
     def ten(self):
         return 10
@@ -72,6 +76,12 @@ class IntegrationTests(TestCase):
         condition = {'name': 'foo',
                      'operator': 'contains',
                      'value': 'o'}
+        self.assertTrue(check_condition(condition, SomeVariables()))
+
+    def test_contains_dynamically(self):
+        condition = {'name': 'foo',
+                     'operator': 'contains_dynamic',
+                     'value': 'foo_substring'}
         self.assertTrue(check_condition(condition, SomeVariables()))
 
     def test_check_false_condition_happy_path(self):
@@ -213,6 +223,7 @@ expected_variable_type_operators = {
     'string': [
         {'input_type': 'text', 'label': 'Contains', 'name': 'contains'},
         {'input_type': 'text', 'label': 'Contains (case insensitive)', 'name': 'contains_case_insensitive'},
+        {'input_type': 'text', 'label': 'Contains other field (dynamically fetches value of other field)', 'name': 'contains_dynamic'},
         {'input_type': 'text', 'label': 'Does Not Contain', 'name': 'does_not_contain'},
         {'input_type': 'text', 'label': 'Does not contain (case insensitive)',
          'name': 'does_not_contain_case_insensitive'},
