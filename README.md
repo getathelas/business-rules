@@ -229,10 +229,12 @@ The available types and decorators are:
 `@numeric_rule_variable` operators:
 
 * `equal_to`
+* `not_equal_to`
 * `greater_than`
-* `less_than`
 * `greater_than_or_equal_to`
+* `less_than`
 * `less_than_or_equal_to`
+* `does_not_exist`
 
 Note: to compare floating point equality we just check that the difference is less than some small epsilon
 
@@ -241,11 +243,22 @@ Note: to compare floating point equality we just check that the difference is le
 `@string_rule_variable` operators:
 
 * `equal_to`
+* `equal_to_case_insensitive`
 * `starts_with`
 * `ends_with`
 * `contains`
+* `contains_dynamic`
+* `contains_case_insensitive`
 * `matches_regex`
 * `non_empty`
+* `not_equal_to`
+* `not_equal_to_case_insensitive`
+* `does_not_start_with`
+* `does_not_end_with`
+* `does_not_contain`
+* `does_not_contain_case_insensitive`
+* `does_not_match_regex`
+* `is_empty`
 
 **boolean** - a True or False value.
 
@@ -259,6 +272,8 @@ Note: to compare floating point equality we just check that the difference is le
 `@select_rule_variable` operators:
 
 * `contains`
+* `contains_any`
+* `contains_all`
 * `does_not_contain`
 
 **select_multiple** - a set of values, where the threshold will be a set of items.
@@ -270,6 +285,7 @@ Note: to compare floating point equality we just check that the difference is le
 * `shares_at_least_one_element_with`
 * `shares_exactly_one_element_with`
 * `shares_no_elements_with`
+* `compare_state_with_item`
 
 ### Returning data to your client
 
