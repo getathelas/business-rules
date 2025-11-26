@@ -247,7 +247,6 @@ Note: to compare floating point equality we just check that the difference is le
 * `starts_with`
 * `ends_with`
 * `contains`
-* `contains_dynamic`
 * `contains_case_insensitive`
 * `matches_regex`
 * `non_empty`
@@ -259,6 +258,13 @@ Note: to compare floating point equality we just check that the difference is le
 * `does_not_contain_case_insensitive`
 * `does_not_match_regex`
 * `is_empty`
+* `equal_to_dynamic`
+* `equal_to_case_insensitive_dynamic`
+* `contains_dynamic`
+* `contains_case_insensitive_dynamic`
+* `not_equal_to_dynamic`
+* `not_equal_to_case_insensitive_dynamic`
+* `does_not_contain_case_insensitive_dynamic`
 
 **boolean** - a True or False value.
 
@@ -285,7 +291,7 @@ Note: to compare floating point equality we just check that the difference is le
 * `shares_at_least_one_element_with`
 * `shares_exactly_one_element_with`
 * `shares_no_elements_with`
-* `compare_state_with_item`
+* `compare_state_with_item` (Only for Posting Rule Engine)
 
 ### Returning data to your client
 
