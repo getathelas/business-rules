@@ -8,8 +8,8 @@ def run_all(rule_list,
             stop_on_first_trigger=False):
     rule_was_triggered = False
     for rule in rule_list:
-        result = run(rule, defined_variables, defined_actions)
-        if result:
+        rule_triggered, _ = run(rule, defined_variables, defined_actions)
+        if rule_triggered:
             rule_was_triggered = True
             if stop_on_first_trigger:
                 return True
@@ -17,12 +17,19 @@ def run_all(rule_list,
 
 
 def run(rule, defined_variables, defined_actions):
+    """
+    Runs a single rule and returns a tuple of (rule_triggered, rule_applied).
+    rule_triggered is True if the rule conditions are met, False otherwise.
+    rule_applied is True if any action returns True or None (legacy), False otherwise.
+    """
     conditions, actions = rule['conditions'], rule['actions']
     rule_triggered = check_conditions_recursively(conditions, defined_variables)
     if rule_triggered:
-        do_actions(actions, defined_actions)
-        return True
-    return False
+        # Actions that return False are considered to have not been applied
+        # Actions that return True or None (legacy) are considered applied
+        rule_applied = do_actions(actions, defined_actions)
+        return (True, rule_applied)
+    return (False, False)
 
 
 def check_conditions_recursively(conditions, defined_variables):
@@ -126,6 +133,7 @@ def _do_operator_comparison(operator_type, operator_name, comparison_value):
 
 
 def do_actions(actions, defined_actions):
+    any_action_applied = False
     for action in actions:
         method_name = action['name']
 
@@ -135,4 +143,9 @@ def do_actions(actions, defined_actions):
 
         params = action.get('params') or {}
         method = getattr(defined_actions, method_name, fallback)
-        method(**params)
+        result = method(**params)
+        # Any action that returns True or None (legacy) is considered applied
+        if result is not False:
+            any_action_applied = True
+    # Return True if any action was applied, False if all returned False
+    return any_action_applied

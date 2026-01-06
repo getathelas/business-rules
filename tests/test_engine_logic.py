@@ -24,7 +24,8 @@ class EngineTests(TestCase):
         actions = BaseActions()
 
         def return_action1(rule, *args, **kwargs):
-            return rule['actions'] == 'action name 1'
+            rule_triggered = rule['actions'] == 'action name 1'
+            return (rule_triggered, True)
         engine.run.side_effect = return_action1
 
         result = engine.run_all([rule1, rule2], variables, actions)
@@ -38,7 +39,7 @@ class EngineTests(TestCase):
         self.assertTrue(result)
         self.assertEqual(engine.run.call_count, 2)
 
-    @patch.object(engine, 'run', return_value=True)
+    @patch.object(engine, 'run', return_value=(True, True))
     def test_run_all_stop_on_first(self, *args):
         rule1 = {'conditions': 'condition1', 'actions': 'action name 1'}
         rule2 = {'conditions': 'condition2', 'actions': 'action name 2'}
@@ -52,14 +53,14 @@ class EngineTests(TestCase):
         engine.run.assert_called_once_with(rule1, variables, actions)
 
     @patch.object(engine, 'check_conditions_recursively', return_value=True)
-    @patch.object(engine, 'do_actions')
+    @patch.object(engine, 'do_actions', return_value=True)
     def test_run_that_triggers_rule(self, *args):
         rule = {'conditions': 'blah', 'actions': 'blah2'}
         variables = BaseVariables()
         actions = BaseActions()
 
         result = engine.run(rule, variables, actions)
-        self.assertEqual(result, True)
+        self.assertEqual(result, (True, True))
         engine.check_conditions_recursively.assert_called_once_with(
                 rule['conditions'], variables)
         engine.do_actions.assert_called_once_with(rule['actions'], actions)
@@ -73,7 +74,7 @@ class EngineTests(TestCase):
         actions = BaseActions()
 
         result = engine.run(rule, variables, actions)
-        self.assertEqual(result, False)
+        self.assertEqual(result, (False, False))
         engine.check_conditions_recursively.assert_called_once_with(
                 rule['conditions'], variables)
         self.assertEqual(engine.do_actions.call_count, 0)
@@ -176,17 +177,53 @@ class EngineTests(TestCase):
     ### Actions
     ###
     def test_do_actions(self):
+        # Test case 1: Actions that return None (legacy) are considered applied
         actions = [ {'name': 'action1'},
                     {'name': 'action2',
                      'params': {'param1': 'foo', 'param2': 10}}]
         defined_actions = BaseActions()
-        defined_actions.action1 = MagicMock()
-        defined_actions.action2 = MagicMock()
+        defined_actions.action1 = MagicMock(return_value=None)
+        defined_actions.action2 = MagicMock(return_value=None)
 
-        engine.do_actions(actions, defined_actions)
-
+        result = engine.do_actions(actions, defined_actions)
+        self.assertTrue(result)
         defined_actions.action1.assert_called_once_with()
         defined_actions.action2.assert_called_once_with(param1='foo', param2=10)
+
+        # Test case 2: Action that returns True is considered applied
+        actions = [{'name': 'action1'}]
+        defined_actions = BaseActions()
+        defined_actions.action1 = MagicMock(return_value=True)
+
+        result = engine.do_actions(actions, defined_actions)
+        self.assertTrue(result)
+
+        # Test case 3: Action that returns False is not considered applied
+        actions = [{'name': 'action1'}]
+        defined_actions = BaseActions()
+        defined_actions.action1 = MagicMock(return_value=False)
+
+        result = engine.do_actions(actions, defined_actions)
+        self.assertFalse(result)
+
+        # Test case 4: All actions return False - not applied
+        actions = [{'name': 'action1'}, {'name': 'action2'}]
+        defined_actions = BaseActions()
+        defined_actions.action1 = MagicMock(return_value=False)
+        defined_actions.action2 = MagicMock(return_value=False)
+
+        result = engine.do_actions(actions, defined_actions)
+        self.assertFalse(result)
+
+        # Test case 5: Any action returns True/None - applied
+        actions = [{'name': 'action1'}, {'name': 'action2'}]
+        defined_actions = BaseActions()
+        defined_actions.action1 = MagicMock(return_value=False)
+        defined_actions.action2 = MagicMock(return_value=True)
+
+        result = engine.do_actions(actions, defined_actions)
+        self.assertTrue(result)
+
 
     def test_do_with_invalid_action(self):
         actions = [{'name': 'fakeone'}]
