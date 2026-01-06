@@ -17,10 +17,17 @@ def run_all(rule_list,
 
 
 def run(rule, defined_variables, defined_actions):
-    """
-    Runs a single rule and returns a tuple of (rule_triggered, rule_applied).
-    rule_triggered is True if the rule conditions are met, False otherwise.
-    rule_applied is True if any action returns True or None (legacy), False otherwise.
+    """Runs a single rule and returns a tuple of (rule_triggered, rule_applied).
+
+    Args:
+        rule: Dict containing 'conditions' and 'actions'.
+        defined_variables: Variables object for condition evaluation.
+        defined_actions: Actions object for action execution.
+
+    Returns:
+        tuple: A tuple of (rule_triggered, rule_applied) where:
+            rule_triggered (bool): True if the rule conditions are met, False otherwise.
+            rule_applied (bool): True if any action returns True or None (legacy), False otherwise.
     """
     conditions, actions = rule['conditions'], rule['actions']
     rule_triggered = check_conditions_recursively(conditions, defined_variables)
@@ -149,3 +156,4 @@ def do_actions(actions, defined_actions):
             any_action_applied = True
     # Return True if any action was applied, False if all returned False
     return any_action_applied
+    
