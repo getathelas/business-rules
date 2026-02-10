@@ -1,7 +1,7 @@
 from business_rules.engine import check_condition
 from business_rules import export_rule_data
 from business_rules.actions import rule_action, BaseActions
-from business_rules.variables import BaseVariables, string_rule_variable, numeric_rule_variable, boolean_rule_variable
+from business_rules.variables import BaseVariables, string_rule_variable, numeric_rule_variable, numeric_string_rule_variable, boolean_rule_variable
 from business_rules.fields import FIELD_TEXT, FIELD_NUMERIC, FIELD_SELECT
 from unittest import TestCase
 
@@ -30,6 +30,10 @@ class SomeVariables(BaseVariables):
     )
     def addition(self, x, y):
         return x + y
+
+    @numeric_string_rule_variable(label="Ten as string")
+    def ten_as_string(self):
+        return "10"
 
 
 class SomeActions(BaseActions):
@@ -122,9 +126,49 @@ class IntegrationTests(TestCase):
             "value": 10,
             "params": {},
         }
-        err_string = "addition\(\) missing 2 required positional arguments: 'x' and 'y'"
+        err_string = r"addition\(\) missing 2 required positional arguments: 'x' and 'y'"
         with self.assertRaisesRegex(TypeError, err_string):
             check_condition(condition, SomeVariables())
+
+    def test_numeric_string_variable_equal_to(self):
+        condition = {
+            "name": "ten_as_string",
+            "operator": "equal_to",
+            "value": 10,
+        }
+        self.assertTrue(check_condition(condition, SomeVariables()))
+
+    def test_numeric_string_variable_equal_to_string_value(self):
+        condition = {
+            "name": "ten_as_string",
+            "operator": "equal_to",
+            "value": "10",
+        }
+        self.assertTrue(check_condition(condition, SomeVariables()))
+
+    def test_numeric_string_variable_greater_than(self):
+        condition = {
+            "name": "ten_as_string",
+            "operator": "greater_than",
+            "value": 5,
+        }
+        self.assertTrue(check_condition(condition, SomeVariables()))
+
+    def test_numeric_string_variable_less_than(self):
+        condition = {
+            "name": "ten_as_string",
+            "operator": "less_than",
+            "value": 20,
+        }
+        self.assertTrue(check_condition(condition, SomeVariables()))
+
+    def test_numeric_string_variable_not_equal_to(self):
+        condition = {
+            "name": "ten_as_string",
+            "operator": "not_equal_to",
+            "value": 7,
+        }
+        self.assertTrue(check_condition(condition, SomeVariables()))
 
     def test_export_rule_data(self):
         """ Tests that export_rule_data has the three expected keys
@@ -183,6 +227,13 @@ class IntegrationTests(TestCase):
                            "options": [],
                            "params": [],
                            },
+                          {"name": "ten_as_string",
+                           "label": "Ten as string",
+                           "docs": None,
+                           "field_type": "numeric_string",
+                           "options": [],
+                           "params": [],
+                           },
                           {'name': 'true_bool',
                            'label': 'True Bool',
                            "docs": None,
@@ -197,6 +248,15 @@ class IntegrationTests(TestCase):
 
 
 expected_variable_type_operators = {
+    'numeric_string': [
+        {'input_type': 'none', 'label': 'Does Not Exist', 'name': 'does_not_exist'},
+        {'input_type': 'numeric', 'label': 'Equal To', 'name': 'equal_to'},
+        {'input_type': 'numeric', 'label': 'Greater Than', 'name': 'greater_than'},
+        {'input_type': 'numeric', 'label': 'Greater Than Or Equal To', 'name': 'greater_than_or_equal_to'},
+        {'input_type': 'numeric', 'label': 'Less Than', 'name': 'less_than'},
+        {'input_type': 'numeric', 'label': 'Less Than Or Equal To', 'name': 'less_than_or_equal_to'},
+        {'input_type': 'numeric', 'label': 'Not Equal To', 'name': 'not_equal_to'}
+    ],
     'boolean': [
         {'input_type': 'none', 'label': 'Is False', 'name': 'is_false'},
         {'input_type': 'none', 'label': 'Is True', 'name': 'is_true'}

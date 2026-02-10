@@ -1,5 +1,6 @@
 from business_rules.operators import (StringType,
-                                      NumericType, BooleanType, SelectType,
+                                      NumericType, NumericStringType,
+                                      BooleanType, SelectType,
                                       SelectMultipleType)
 
 from unittest import TestCase
@@ -136,6 +137,51 @@ class NumericOperatorTests(TestCase):
     def test_does_not_exist(self):
         self.assertFalse(NumericType(1).does_not_exist())
         self.assertTrue(NumericType(None).does_not_exist())
+
+
+class NumericStringOperatorTests(TestCase):
+    """ NumericStringType accepts numeric strings and delegates to NumericType operators.
+    """
+
+    def test_instantiate_rejects_non_numeric_string(self):
+        err_string = "foo is not a valid numeric string type"
+        with self.assertRaisesRegex(AssertionError, err_string):
+            NumericStringType("foo")
+
+    def test_instantiate_accepts_none(self):
+        num = NumericStringType(None)
+        self.assertEqual(num.value, None)
+
+    def test_numeric_string_validates_and_casts_numeric_strings(self):
+        self.assertEqual(NumericStringType("42").value, Decimal("42"))
+        self.assertEqual(NumericStringType("10").value, Decimal("10"))
+        self.assertEqual(NumericStringType("10.5").value, Decimal("10.5"))
+        self.assertTrue(isinstance(NumericStringType("0").value, Decimal))
+
+    def test_numeric_string_accepts_numeric_types_like_numeric_type(self):
+        self.assertEqual(NumericStringType(10).value, Decimal("10"))
+        self.assertEqual(NumericStringType(10.0).value, Decimal("10"))
+        self.assertEqual(NumericStringType(Decimal("7")).value, Decimal("7"))
+
+    def test_numeric_string_equal_to(self):
+        self.assertTrue(NumericStringType("10").equal_to(10))
+        self.assertTrue(NumericStringType("10").equal_to("10"))
+        self.assertFalse(NumericStringType("10").equal_to(11))
+        self.assertFalse(NumericStringType(None).equal_to(10))
+
+    def test_numeric_string_greater_than(self):
+        self.assertTrue(NumericStringType("10").greater_than(1))
+        self.assertFalse(NumericStringType("10").greater_than(11))
+        self.assertFalse(NumericStringType(None).greater_than(10))
+
+    def test_numeric_string_less_than(self):
+        self.assertTrue(NumericStringType("1").less_than(10))
+        self.assertFalse(NumericStringType("11").less_than(10))
+        self.assertFalse(NumericStringType(None).less_than(10))
+
+    def test_numeric_string_does_not_exist(self):
+        self.assertFalse(NumericStringType("1").does_not_exist())
+        self.assertTrue(NumericStringType(None).does_not_exist())
 
 
 class BooleanOperatorTests(TestCase):
