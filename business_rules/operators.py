@@ -6,7 +6,7 @@ from six import string_types, integer_types
 from .fields import (FIELD_TEXT, FIELD_NUMERIC, FIELD_NO_INPUT,
                      FIELD_SELECT, FIELD_SELECT_MULTIPLE)
 from .utils import fn_name_to_pretty_label, float_to_decimal
-from decimal import Decimal, Inexact, Context
+from decimal import Decimal, Inexact, Context, InvalidOperation
 
 class BaseType(object):
     def __init__(self, value):
@@ -232,8 +232,11 @@ class NumericStringType(NumericType):
     name = "numeric_string"
 
     def _assert_valid_value_and_cast(self, value):
-        if isinstance(value, string_types) and value.isnumeric():
-            return Decimal(value)
+        if isinstance(value, string_types):
+            try:
+                return Decimal(value)
+            except (InvalidOperation, ValueError, TypeError):
+                pass
 
         try:
             return super()._assert_valid_value_and_cast(value)
