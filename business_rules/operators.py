@@ -227,6 +227,21 @@ class NumericType(BaseType):
         return self.value == None 
 
 @export_type
+class NumericStringType(NumericType):
+
+    name = "numeric_string"
+
+    def _assert_valid_value_and_cast(self, value):
+        if isinstance(value, string_types) and value.isnumeric():
+            return Decimal(value)
+
+        try:
+            return super()._assert_valid_value_and_cast(value)
+        except AssertionError:
+            raise AssertionError("{0} is not a valid numeric string type".
+                                 format(value))
+
+@export_type
 class BooleanType(BaseType):
 
     name = "boolean"

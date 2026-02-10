@@ -2,12 +2,14 @@ from unittest import TestCase
 from business_rules.utils import fn_name_to_pretty_label
 from business_rules.variables import (rule_variable,
                                       numeric_rule_variable,
+                                      numeric_string_rule_variable,
                                       string_rule_variable,
                                       boolean_rule_variable,
                                       select_rule_variable,
                                       select_multiple_rule_variable)
 
 from business_rules.operators import (NumericType,
+                        NumericStringType,
                         StringType,
                         BooleanType,
                         SelectType,
@@ -72,6 +74,23 @@ class RuleVariableTests(TestCase):
 
         self.assertTrue(getattr(numeric_var, 'is_rule_variable'))
         self.assertEqual(getattr(numeric_var, 'field_type'), NumericType)
+
+    def test_numeric_string_rule_variable(self):
+
+        @numeric_string_rule_variable('My Label')
+        def numeric_string_var(): pass
+
+        self.assertTrue(getattr(numeric_string_var, 'is_rule_variable'))
+        self.assertEqual(getattr(numeric_string_var, 'field_type'), NumericStringType)
+        self.assertEqual(getattr(numeric_string_var, 'label'), 'My Label')
+
+    def test_numeric_string_rule_variable_no_parens(self):
+
+        @numeric_string_rule_variable
+        def numeric_string_var(): pass
+
+        self.assertTrue(getattr(numeric_string_var, 'is_rule_variable'))
+        self.assertEqual(getattr(numeric_string_var, 'field_type'), NumericStringType)
 
     def test_string_rule_variable(self):
 
