@@ -124,6 +124,14 @@ class StringType(BaseType):
     def does_not_contain_case_insensitive(self, other_string):
         return not (other_string.lower() in self.value.lower())
 
+    @type_operator(FIELD_SELECT_MULTIPLE, assert_type_for_arguments=False)
+    def is_in(self, other_value):
+        return self.value in other_value
+
+    @type_operator(FIELD_SELECT_MULTIPLE, assert_type_for_arguments=False)
+    def not_in(self, other_value):
+        return self.value not in other_value
+
     @type_operator(FIELD_TEXT)
     def does_not_match_regex(self, regex):
         return not re.search(regex, self.value)
@@ -224,7 +232,19 @@ class NumericType(BaseType):
         
     @type_operator(FIELD_NO_INPUT)
     def does_not_exist(self):
-        return self.value == None 
+        return self.value == None
+
+    @type_operator(FIELD_SELECT_MULTIPLE, assert_type_for_arguments=False)
+    def is_in(self, other_value):
+        if self.does_not_exist():
+            return False
+        return any(self.equal_to(v) for v in other_value)
+
+    @type_operator(FIELD_SELECT_MULTIPLE, assert_type_for_arguments=False)
+    def not_in(self, other_value):
+        if self.does_not_exist():
+            return False
+        return not self.is_in(other_value)
 
 @export_type
 class NumericStringType(NumericType):

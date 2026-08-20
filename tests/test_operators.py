@@ -47,6 +47,15 @@ class StringOperatorTests(TestCase):
         self.assertFalse(StringType("").non_empty())
         self.assertFalse(StringType(None).non_empty())
 
+    def test_string_is_in(self):
+        self.assertTrue(StringType("foo").is_in(["foo", "bar"]))
+        self.assertFalse(StringType("foo").is_in(["Foo", "bar"]))
+        self.assertFalse(StringType("foo").is_in([]))
+
+    def test_string_not_in(self):
+        self.assertTrue(StringType("foo").not_in(["bar", "baz"]))
+        self.assertFalse(StringType("foo").not_in(["foo", "bar"]))
+
 
 class NumericOperatorTests(TestCase):
 
@@ -138,6 +147,17 @@ class NumericOperatorTests(TestCase):
         self.assertFalse(NumericType(1).does_not_exist())
         self.assertTrue(NumericType(None).does_not_exist())
 
+    def test_numeric_is_in(self):
+        self.assertTrue(NumericType(10).is_in([1, 10, 100]))
+        self.assertTrue(NumericType(10).is_in([10.000001]))
+        self.assertFalse(NumericType(10).is_in([1, 2, 3]))
+        self.assertFalse(NumericType(None).is_in([10]))
+
+    def test_numeric_not_in(self):
+        self.assertTrue(NumericType(10).not_in([1, 2, 3]))
+        self.assertFalse(NumericType(10).not_in([10]))
+        self.assertFalse(NumericType(None).not_in([10]))
+
 
 class NumericStringOperatorTests(TestCase):
     """ NumericStringType accepts numeric strings and delegates to NumericType operators.
@@ -182,6 +202,10 @@ class NumericStringOperatorTests(TestCase):
     def test_numeric_string_does_not_exist(self):
         self.assertFalse(NumericStringType("1").does_not_exist())
         self.assertTrue(NumericStringType(None).does_not_exist())
+
+    def test_numeric_string_is_in(self):
+        self.assertTrue(NumericStringType("10").is_in([10, 20]))
+        self.assertFalse(NumericStringType("10").is_in([1, 2]))
 
 
 class BooleanOperatorTests(TestCase):
