@@ -1,4 +1,4 @@
-__version__ = '1.1.1+athelas9'
+__version__ = '1.1.1+athelas10'
 
 from .engine import run_all
 from .utils import export_rule_data
