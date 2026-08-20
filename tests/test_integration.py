@@ -253,9 +253,11 @@ expected_variable_type_operators = {
         {'input_type': 'numeric', 'label': 'Equal To', 'name': 'equal_to'},
         {'input_type': 'numeric', 'label': 'Greater Than', 'name': 'greater_than'},
         {'input_type': 'numeric', 'label': 'Greater Than Or Equal To', 'name': 'greater_than_or_equal_to'},
+        {'input_type': 'select_multiple', 'label': 'Is In', 'name': 'is_in'},
         {'input_type': 'numeric', 'label': 'Less Than', 'name': 'less_than'},
         {'input_type': 'numeric', 'label': 'Less Than Or Equal To', 'name': 'less_than_or_equal_to'},
-        {'input_type': 'numeric', 'label': 'Not Equal To', 'name': 'not_equal_to'}
+        {'input_type': 'numeric', 'label': 'Not Equal To', 'name': 'not_equal_to'},
+        {'input_type': 'select_multiple', 'label': 'Not In', 'name': 'not_in'}
     ],
     'boolean': [
         {'input_type': 'none', 'label': 'Is False', 'name': 'is_false'},
@@ -266,9 +268,11 @@ expected_variable_type_operators = {
         {'input_type': 'numeric', 'label': 'Equal To', 'name': 'equal_to'},
         {'input_type': 'numeric', 'label': 'Greater Than', 'name': 'greater_than'},
         {'input_type': 'numeric', 'label': 'Greater Than Or Equal To', 'name': 'greater_than_or_equal_to'},
+        {'input_type': 'select_multiple', 'label': 'Is In', 'name': 'is_in'},
         {'input_type': 'numeric', 'label': 'Less Than', 'name': 'less_than'},
         {'input_type': 'numeric', 'label': 'Less Than Or Equal To', 'name': 'less_than_or_equal_to'},
-        {'input_type': 'numeric', 'label': 'Not Equal To', 'name': 'not_equal_to'}
+        {'input_type': 'numeric', 'label': 'Not Equal To', 'name': 'not_equal_to'},
+        {'input_type': 'select_multiple', 'label': 'Not In', 'name': 'not_in'}
     ],
     'select': [
         {'input_type': 'select', 'label': 'Contains', 'name': 'contains'},
@@ -305,12 +309,14 @@ expected_variable_type_operators = {
         {'input_type': 'text', 'label': 'Equal to other field (case insensitive, dynamically fetches value of other field)', 'name': 'equal_to_case_insensitive_dynamic'},
         {'input_type': 'text', 'label': 'Equal to other field (dynamically fetches value of other field)', 'name': 'equal_to_dynamic'},
         {'input_type': 'none', 'label': 'Is Empty', 'name': 'is_empty'},
+        {'input_type': 'select_multiple', 'label': 'Is In', 'name': 'is_in'},
         {'input_type': 'text', 'label': 'Matches Regex', 'name': 'matches_regex'},
         {'input_type': 'none', 'label': 'Non Empty', 'name': 'non_empty'},
         {'input_type': 'text', 'label': 'Not Equal To', 'name': 'not_equal_to'},
         {'input_type': 'text', 'label': 'Not equal To (case insensitive)', 'name': 'not_equal_to_case_insensitive'},
         {'input_type': 'text', 'label': 'Not equal to other field (case insensitive, dynamically fetches value of other field)', 'name': 'not_equal_to_case_insensitive_dynamic'},
         {'input_type': 'text', 'label': 'Not equal to other field (dynamically fetches value of other field)', 'name': 'not_equal_to_dynamic'},
+        {'input_type': 'select_multiple', 'label': 'Not In', 'name': 'not_in'},
         {'input_type': 'text', 'label': 'Starts With', 'name': 'starts_with'}
     ]
 }
